@@ -24,6 +24,7 @@
 #include <iostream>
 
 #include <astro.hpp>
+#include <math/angle.hpp>
 
 
 int main (int argc, char **argv)
@@ -32,10 +33,25 @@ int main (int argc, char **argv)
   std::array<double, 3> v = { 2.63234, -2.63234, 2.63234 };
 
   using namespace astro::states::orbits;
-  struct cartesian crt { r, v };
-  struct keplerian kpl {};
+  using namespace math::angle;
 
-  astro::operations::orbits::state_transforms::cartesian_to_keplerian (crt, kpl);
+  Cartesian crt(r, v);
+  Keplerian kpl(crt);
+
+  std::cout << "============================================\n";
+  std::cout << "CARTESIAN STATE (default)\n";
+  std::cout << "============================================\n";
+  std::cout << crt << "\n\n";
+
+  std::cout << "============================================\n";
+  std::cout << "KEPLERIAN STATE (degrees)\n";
+  std::cout << "============================================\n";
+  std::cout << deg << kpl << "\n\n";
+
+  std::cout << "============================================\n";
+  std::cout << "KEPLERIAN STATE (radians)\n";
+  std::cout << "============================================\n";
+  std::cout << rad << kpl << "\n";
 
   return 0;
 }
