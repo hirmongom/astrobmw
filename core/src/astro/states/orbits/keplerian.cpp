@@ -15,6 +15,7 @@
 #include <sstream>
 #include <iomanip>
 
+#include <iostream> // @TODO remove
 
 using namespace astro::states::orbits;
 namespace earth = astro::constants::bodies::earth;
@@ -209,4 +210,29 @@ std::ostream &astro::states::orbits::operator<<(std::ostream &os, const Kepleria
   os.precision(oldPrecision);
 
   return os;
+}
+
+/**************************************************************************************************/
+bool astro::states::orbits::operator==(const Keplerian &a, const Keplerian &b)
+{
+  // @TODO extract comparision into float.hpp or similar
+  // @TODO update to proper tolerances once researched
+  constexpr double tol_length = 1e-2;
+  constexpr double tol_unitless = 1e-4;
+  constexpr double tol_angle = 1e-3;
+
+  const auto nearly_equal = [](double x, double y, double tol) -> bool
+  {
+    return std::abs(x - y) <= tol;
+  };
+
+  return
+       nearly_equal(a.semi_latus_rectum,     b.semi_latus_rectum,     tol_length)
+    && nearly_equal(a.eccentricity,          b.eccentricity,          tol_unitless)
+    && nearly_equal(a.inclination,           b.inclination,           tol_angle)
+    && nearly_equal(a.raan,                  b.raan,                  tol_angle)
+    && nearly_equal(a.argument_of_periapsis, b.argument_of_periapsis, tol_angle)
+    && nearly_equal(a.true_anomaly,          b.true_anomaly,          tol_angle)
+    && nearly_equal(a.argument_of_latitude,  b.argument_of_latitude,  tol_angle)
+    && nearly_equal(a.true_longitude,        b.true_longitude,        tol_angle);
 }

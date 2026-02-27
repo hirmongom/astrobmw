@@ -15,6 +15,7 @@ class Cartesian;
 class Keplerian
 {
   friend std::ostream &operator<<(std::ostream &os, const Keplerian &kpl);
+  friend bool operator==(const Keplerian &a, const Keplerian &b);
 
   public:
     Keplerian(double p, double e, double i, double Omega, 
@@ -60,6 +61,6 @@ class Keplerian
 }; // class Keplerian
 
 std::ostream &operator<<(std::ostream &os, const Keplerian &kpl);
-
+bool operator==(const Keplerian &a, const Keplerian &b);
 
 } // namespace astro::states::orbits
